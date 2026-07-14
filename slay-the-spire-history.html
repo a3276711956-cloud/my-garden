@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杀戮尖塔 · 游戏发展史</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+    background: #fafaf9;
+    color: #1c1917;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+    padding: 80px 24px 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(255,255,255,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .header h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    position: relative;
+    z-index: 1;
+  }
+  .header p {
+    margin-top: 12px;
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.7);
+    position: relative;
+    z-index: 1;
+  }
+  .header .badge {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 6px 18px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.75);
+    border: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    z-index: 1;
+  }
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+  .timeline {
+    position: relative;
+    padding-left: 44px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: #d6d3d1;
+  }
+  .entry {
+    position: relative;
+    margin-bottom: 48px;
+    padding-left: 28px;
+  }
+  .entry:last-child { margin-bottom: 0; }
+  .entry::before {
+    content: '';
+    position: absolute;
+    left: -29px;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #1a1a2e;
+    border: 3px solid #fafaf9;
+    box-shadow: 0 0 0 2px #1a1a2e;
+  }
+  .entry .year {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #78716c;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+  .entry h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #1c1917;
+  }
+  .entry p {
+    font-size: 0.92rem;
+    color: #57534e;
+    line-height: 1.7;
+  }
+  .entry p + p { margin-top: 8px; }
+  .entry.highlight::before {
+    background: #e11d48;
+    border-color: #fafaf9;
+    box-shadow: 0 0 0 2px #e11d48;
+  }
+  .entry.highlight .year { color: #e11d48; }
+  .entry.highlight h2 { color: #e11d48; }
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    margin: 16px 0 8px;
+  }
+  .stat-card {
+    background: #fff;
+    border: 1px solid #e7e5e4;
+    border-radius: 8px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+  .stat-card .num {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+  .stat-card .label {
+    font-size: 0.75rem;
+    color: #a8a29e;
+    margin-top: 2px;
+  }
+  .footer {
+    text-align: center;
+    padding: 32px 24px;
+    font-size: 0.8rem;
+    color: #a8a29e;
+    border-top: 1px solid #e7e5e4;
+  }
+  @media (max-width: 480px) {
+    .header { padding: 56px 20px 44px; }
+    .container { padding: 40px 20px 60px; }
+    .timeline { padding-left: 36px; }
+    .entry { padding-left: 20px; }
+    .entry::before { left: -25px; width: 10px; height: 10px; }
+    .timeline::before { left: 12px; }
+  }
+</style>
+</head>
+<body>
+<header class="header">
+  <h1>杀戮尖塔 · 编年史</h1>
+  <p>从独立原型到卡牌 Roguelike 标杆的七年之路</p>
+  <span class="badge">2017 — 2024</span>
+</header>
+<div class="container">
+  <div class="timeline">
+    <div class="entry">
+      <span class="year">2015 — 萌芽</span>
+      <h2>两个朋友的决定</h2>
+      <p>Anthony Giovannetti 和 Casey Yano，两个在游戏行业打拼多年的朋友，决定离开本职工作，成立独立工作室 Mega Crit Games。他们最初的灵感来自《Dream Quest》—— 一款画面简陋但玩法极具深度的卡牌 Roguelike 游戏。他们想：如果把这套玩法做到现代水准，会是什么样子？</p>
+    </div>
+    <div class="entry">
+      <span class="year">2017 年 11 月 15 日</span>
+      <h2>Early Access 启程</h2>
+      <p>《Slay the Spire》以 Early Access 形式登陆 Steam。首发只有两名角色——铁甲战士（Ironclad）和静默猎手（Silent），以及三幕地图。售价 19.99 美元，第一天就卖出了数千份。</p>
+      <p>游戏的核心框架已经成型：爬塔、卡牌构筑、遗物系统、随机遭遇——但内容量还很有限，Boss 只有三个。社区反馈极其热烈，Mega Crit 开启了每周更新的节奏。</p>
+    </div>
+    <div class="entry highlight">
+      <span class="year">2018 — 爆发之年</span>
+      <h2>第三角色与口碑裂变</h2>
+      <p>2018 年 4 月，第三名角色故障机器人（Defect）加入游戏，带来了全新的"充能球"机制，玩法维度瞬间拉宽。同月 Steam 销量突破 50 万份。</p>
+      <p>这一年里，Mega Crit 保持着惊人的更新频率——新卡牌、新遗物、新事件、新精英怪，几乎每个月都有实质性内容加入。游戏开始在 Twitch 上大量传播。"杀戮尖塔"的中文译名也在国内玩家群体中传开，成为当年 Steam 上国产玩家比例最高的独立游戏之一。</p>
+      <div class="stat-row">
+        <div class="stat-card"><div class="num">100万+</div><div class="label">年末总销量</div></div>
+        <div class="stat-card"><div class="num">97%</div><div class="label">Steam 好评率</div></div>
+      </div>
+    </div>
+    <div class="entry highlight">
+      <span class="year">2019 年 1 月 23 日</span>
+      <h2>1.0 正式发布</h2>
+      <p>在 Early Access 中度过了 14 个月后，游戏正式版本上线。第四名角色观者（The Watcher）作为压轴内容登场——她拥有独特的"姿态"切换系统，在平静与愤怒之间转换，是操作难度最高的角色。</p>
+      <p>正式版同时带来了完整的每日挑战模式、更精细的平衡性调整，以及贯穿始终的碎片化叙事。游戏获得了 The Game Awards 2019 "最佳独立游戏"提名，并在 IGN、PC Gamer 等媒体的年度评选中多次亮相。</p>
+      <div class="stat-row">
+        <div class="stat-card"><div class="num">150万+</div><div class="label">到 2019 年中</div></div>
+        <div class="stat-card"><div class="num">98%</div><div class="label">历史好评率</div></div>
+        <div class="stat-card"><div class="num">#1</div><div class="label">2019 卡牌游戏</div></div>
+      </div>
+    </div>
+    <div class="entry">
+      <span class="year">2020</span>
+      <h2>移动端与持续打磨</h2>
+      <p>2020 年 6 月，iOS 版上线（Apple Arcade 独占），随后于 2021 年登陆 Android。移动版完美保留了 PC 版所有内容，触摸操作针对卡牌交互做了细致优化。即使上线两年后，PC 版仍在通过小型补丁打磨卡牌平衡——这种持续维护的态度是 Mega Crit 赢得尊重的关键原因。</p>
+    </div>
+    <div class="entry">
+      <span class="year">2021 — 2023</span>
+      <h2>影响力扩散</h2>
+      <p>《杀戮尖塔》的玩法设计开始深刻影响整个独立游戏和卡牌游戏领域。《邪恶冥刻》《怪物列车》《虚空穹牢》等作品都明确受到了它的启发。卡牌+Roguelike 从一个小众子类型变成了独立游戏最热门的赛道之一。</p>
+      <p>国内方面，Steam 创意工坊上的中文 Mod 社区异常活跃。"崩坠"（The Downfall）——一个将玩家置于 Boss 视角的大型 Mod——在 2022 年获得官方认可，作为免费 DLC 上架 Steam，成为 Mod 转正最成功的案例之一。</p>
+    </div>
+    <div class="entry">
+      <span class="year">2023 年 6 月</span>
+      <h2>销量里程碑：500 万</h2>
+      <p>Mega Crit 宣布《杀戮尖塔》全平台累计销量突破 500 万份。对于一个只有两个人的开发团队来说，这是不可思议的成绩。团队同时确认他们正在开发下一款游戏——但没有透露任何具体信息。</p>
+    </div>
+    <div class="entry highlight">
+      <span class="year">2024 年 12 月 13 日</span>
+      <h2>《杀戮尖塔2》正式公布</h2>
+      <p>在 TGA 2024 颁奖典礼上，Mega Crit 放出了《杀戮尖塔2》的首支预告片。游戏采用全新美术风格——手绘感更强的 2D 画面，更流畅的动画。预告片确认了铁甲战士和静默猎手回归，同时引入了一位新角色。UI 和遗物系统看起来全面重制，卡牌效果也出现了前所未有的关键词。</p>
+      <p>Mega Crit 宣布《杀戮尖塔2》计划于 2025 年在 Steam Early Access 开启。从预告片发布的那一夜起，全世界的爬塔玩家们又重新活了过来。</p>
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  站在巨人的肩膀上 · 致敬 Mega Crit Games 和每一位爬塔者
+</footer>
+</body>
+</html>
