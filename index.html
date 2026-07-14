@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的数字花园</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 18px; scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', sans-serif;
+  line-height: 1.7;
+  color: #333;
+  background: #fafaf9;
+  padding: 2rem 1.5rem;
+  max-width: 680px;
+  margin: 0 auto;
+}
+@media (prefers-color-scheme: dark) {
+  body { color: #e4e4e7; background: #18181b; }
+  a { color: #93c5fd; }
+  .note-link { background: #27272a; }
+  .note-link:hover { background: #3f3f46; }
+  .tag { background: #1e293b; color: #93c5fd; }
+  .note-content { background: #27272a; }
+  .search-box { background: #27272a; color: #e4e4e7; border-color: #3f3f46; }
+}
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 { font-size: 2.2rem; font-weight: 500; margin-bottom: 0.3rem; letter-spacing: -0.02em; }
+.subtitle { color: #71717a; margin-bottom: 2rem; font-size: 0.9rem; }
+.bio { margin-bottom: 2.5rem; line-height: 1.8; color: #52525b; }
+.search-box {
+  width: 100%; padding: 0.6rem 1rem; font-size: 0.9rem;
+  border: 1px solid #e4e4e7; border-radius: 6px; outline: none;
+  margin-bottom: 1.5rem; transition: border-color 0.15s;
+}
+.search-box:focus { border-color: #2563eb; }
+.notes { list-style: none; }
+.note-link {
+  display: block; padding: 0.7rem 1rem; margin-bottom: 0.4rem;
+  border-radius: 6px; transition: background 0.15s;
+  background: #fff; border: 1px solid rgba(0,0,0,0.05);
+  text-decoration: none; color: inherit;
+}
+.note-link:hover { background: #f4f4f5; text-decoration: none; }
+.note-title { font-weight: 500; margin-bottom: 0.15rem; }
+.note-meta { font-size: 0.78rem; color: #a1a1aa; }
+.tags { margin-top: 0.3rem; display: flex; gap: 0.3rem; flex-wrap: wrap; }
+.tag {
+  font-size: 0.7rem; padding: 0.1rem 0.5rem; border-radius: 3px;
+  background: #e0e7ff; color: #4338ca;
+}
+.section-title { font-weight: 500; color: #71717a; font-size: 0.85rem; margin-bottom: 0.8rem; letter-spacing: 0.05em; text-transform: uppercase; }
+.note-page { display: none; }
+.note-page.active { display: block; }
+.back-link { display: inline-block; margin-bottom: 1.5rem; font-size: 0.85rem; color: #71717a; }
+.back-link:hover { color: #333; }
+.note-content { background: #fff; border-radius: 6px; padding: 1.5rem; border: 1px solid rgba(0,0,0,0.05); }
+.note-content h2 { font-size: 1.5rem; font-weight: 500; margin-bottom: 0.5rem; }
+.note-content .note-date { font-size: 0.8rem; color: #a1a1aa; margin-bottom: 1rem; }
+.note-content p { margin-bottom: 1rem; }
+.note-content ul, .note-content ol { margin-bottom: 1rem; padding-left: 1.2rem; }
+.note-content li { margin-bottom: 0.3rem; }
+.note-content blockquote { border-left: 2px solid #2563eb; padding-left: 1rem; color: #71717a; margin-bottom: 1rem; }
+.hidden { display: none; }
+.no-results { color: #a1a1aa; text-align: center; padding: 2rem 0; }
+@media (max-width: 540px) { html { font-size: 16px; } body { padding: 1.5rem 1rem; } }
+</style>
+</head>
+<body>
+<div id="home-view">
+  <h1>✦ 数字花园</h1>
+  <p class="subtitle">这里是我随手的想法、笔记和碎片思考。</p>
+  <div class="bio">
+    <!-- 在这里写上你的自我介绍 -->
+    扣你吉瓦，欢迎来到我的数字花园。这里记录着我日常的思考、读书笔记和有趣的想法。
+    每篇笔记都是一颗种子，静静地生长着。
+  </div>
+  <input type="text" class="search-box" id="search" placeholder="搜索笔记..." oninput="filterNotes()">
+  <p class="section-title">全部笔记</p>
+  <ul class="notes" id="notes-list"></ul>
+  <p class="no-results hidden" id="no-results">没有找到匹配的笔记</p>
+</div>
+<div id="note-view" class="note-page"></div>
+<script>
+const notes = [
+  { id: 'hello', title: '你好，数字花园', date: '2026-07-14', tags: ['随笔', '开始'], content: `<h2>你好，数字花园</h2><p class="note-date">2026-07-14</p><p>这是我种下的第一颗种子。</p><p>数字花园不是一个博客，也不是一个笔记软件。它是一种写作方式——不追求完美，不追求完整，只记录想法的生长过程。</p><p>这里的每一篇笔记都可以随时修改、补充、链接到其他笔记。它们像花园里的植物一样，自然地生长。</p><blockquote>种一棵树最好的时间是十年前，其次是现在。</blockquote>` },
+  { id: 'markdown', title: '如何写笔记', date: '2026-07-14', tags: ['指南'], content: `<h2>如何写笔记</h2><p class="note-date">2026-07-14</p><p>你的笔记放在 <code>content/</code> 文件夹里，每个笔记是一个独立的 HTML 片段。</p><h3>添加新笔记</h3><ol><li>在 <code>content/</code> 目录下创建一个新的 HTML 文件</li><li>用你喜欢的编辑器写内容</li><li>在 <code>index.html</code> 的 <code>notes</code> 数组里加一条记录</li></ol><p>就是这么简单。不需要任何构建工具，直接打开就能用。</p>` },
+  { id: 'reading', title: '正在读的书', date: '2026-07-13', tags: ['读书', '清单'], content: `<h2>正在读的书</h2><p class="note-date">2026-07-13</p><p>最近在读的一些书：</p><ul><li>《禅与摩托车维修艺术》—— 关于质量和生活的哲学</li><li>《设计的生态学》—— 后藤武的思考方式</li><li>《思考，快与慢》—— 慢慢读，断断续续</li></ul><p>读书笔记我会单独写成笔记，链接过来。</p>` },
+  { id: 'ideas', title: '一些灵感碎片', date: '2026-07-12', tags: ['灵感', '碎片'], content: `<h2>一些灵感碎片</h2><p class="note-date">2026-07-12</p><p>一些随手记下的想法：</p><ul><li>好的设计是你能感受到但不一定能看见的</li><li>写作不是为了表达，而是为了想清楚</li><li>极简不是少，而是足够</li><li>数字花园的美在于它的不完美——种子可以随时发芽</li></ul>` },
+  { id: 'tools', title: '我用的工具们', date: '2026-07-11', tags: ['工具'], content: `<h2>我用的工具们</h2><p class="note-date">2026-07-11</p><ul><li><strong>编辑器：</strong> VS Code</li><li><strong>笔记管理：</strong> 这个网站就是我的笔记系统</li><li><strong>部署：</strong> GitHub Pages</li><li><strong>字体：</strong> Noto Sans SC + 系统字体</li></ul><p>简单到极致，才能专注于内容本身。</p>` },
+  { id: 'slaythespires', title: '我爱玩杀戮尖塔', date: '2026-07-15', tags: ['游戏'], content: `<h2>我很爱玩杀戮尖塔</h2><p class="note-date">2026-07-11</p><ul><li><strong>爱好：</strong>杀戮尖塔</li><li><strong>天天玩的：</strong> 杀戮尖塔</li><li><strong>最爱玩的：</strong> 杀戮尖塔</li><li><strong>字体：</strong> Noto Sans SC + 系统字体</li></ul><p>简单到极致，才能专注于内容本身。</p>` },
+];
+const notesList = document.getElementById('notes-list');
+const homeView = document.getElementById('home-view');
+const noteView = document.getElementById('note-view');
+const searchBox = document.getElementById('search');
+const noResults = document.getElementById('no-results');
+function renderNotes(filter) {
+  const f = (filter || '').toLowerCase();
+  const filtered = f ? notes.filter(n => n.title.toLowerCase().includes(f) || n.tags.some(t => t.toLowerCase().includes(f))) : notes;
+  notesList.innerHTML = filtered.map(n => `<li><a href="#${n.id}" class="note-link" onclick="showNote('${n.id}')"><div class="note-title">${n.title}</div><div class="note-meta">${n.date}</div><div class="tags">${n.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div></a></li>`).join('');
+  noResults.classList.toggle('hidden', filtered.length > 0);
+}
+function filterNotes() { renderNotes(searchBox.value); }
+function showNote(id) {
+  const note = notes.find(n => n.id === id);
+  if (!note) return;
+  homeView.style.display = 'none';
+  noteView.innerHTML = `<a href="#" class="back-link" onclick="goHome()">← 返回</a><div class="note-content">${note.content}</div>`;
+  noteView.classList.add('active');
+  noteView.style.display = 'block';
+  document.title = note.title + ' — 我的花园';
+  history.pushState({ note: id }, '', '#' + id);
+}
+function goHome() {
+  homeView.style.display = 'block';
+  noteView.style.display = 'none';
+  noteView.classList.remove('active');
+  document.title = '我的数字花园';
+  history.pushState({}, '', '/');
+}
+window.addEventListener('popstate', e => {
+  const hash = location.hash.slice(1);
+  if (hash && notes.find(n => n.id === hash)) showNote(hash);
+  else goHome();
+});
+const hash = location.hash.slice(1);
+if (hash && notes.find(n => n.id === hash)) showNote(hash);
+renderNotes();
+</script>
+</body>
+</html>
